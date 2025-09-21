@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Page</title>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2>Create Account</h2>
+      <p>Please fill in the details to register</p>
+
+      <form>
+        <div class="input-box">
+          <input type="text" id="fullname" required>
+          <label for="fullname">Full Name</label>
+        </div>
+
+        <div class="input-box">
+          <input type="email" id="email" required>
+          <label for="email">Email</label>
+        </div>
+
+        <div class="input-box">
+          <input type="password" id="password" required>
+          <label for="password">Password</label>
+        </div>
+
+        <div class="input-box">
+          <input type="password" id="confirm" required>
+          <label for="confirm">Confirm Password</label>
+        </div>
+
+        <button type="submit">Register</button>
+
+        <div class="signup-link">
+          Already have an account? <a href="login.html" id="login">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    document.getElementById("login").addEventListener("click", function() {
+      window.location.href = "login.html";
+   });
+  </script>
+</body>
+</html>

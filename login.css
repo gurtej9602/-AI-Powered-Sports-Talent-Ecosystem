@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url(https://i.pinimg.com/1200x/f8/cd/57/f8cd57f80819ba420f2c47518d8fc69d.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+/* Container center */
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+}
+
+/* Glassmorphism box */
+.login-box {
+  background: rgb(235, 185, 110);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgb(51, 30, 2);
+  backdrop-filter: blur(15px);
+  color: #221102;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.login-box h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.login-box p {
+  margin-bottom: 25px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Floating label inputs */
+.input-box {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #110000;
+  outline: none;
+  font-size: 16px;
+  color: #270202;
+}
+
+.input-box label {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  color:  #221102;
+  font-size: 16px;
+  transition: 0.3s ease;
+  pointer-events: none;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  bottom: 35px;
+  font-size: 12px;
+  color: #161300;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #f5e76c, #01161a);
+  color: #f7f2f2;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #574302, #4facfe);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Signup link */
+.signup-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #141001;
+}
+
+.signup-link a {
+  color: #141001;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Error message */
+.error {
+  margin-top: 15px;
+  color: #ff4d6d;
+  font-size: 14px;
+  display: none;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 30px 20px;
+  }
+}

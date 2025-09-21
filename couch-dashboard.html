@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sports Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-image: url(fantastic-sports-futuristic-design-background-wallpaper-free-vector.jpg); 
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+      margin-bottom: 30px;
+    }
+    .search-bar {
+      font-size: 20px;
+      padding: 12px 28px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      width: 380px;
+      outline: none;
+    }
+    .card-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+    .info-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      width: 240px;
+      padding: 24px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.15s;
+    }
+    .info-card:hover {
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .card-title {
+      margin: 0 0 12px 0;
+      font-size: 1.17em;
+      font-weight: bold;
+    }
+    .card-sport {
+      color: #888;
+      font-size: 1.02em;
+      margin-bottom: 0;
+    }
+    .modal-overlay {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 36px 14px 36px;
+      position: relative;
+      min-width: 300px;
+      max-width: 95vw;
+      max-height: 90vh;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .modal-content video {
+      border-radius: 10px;
+      background: #222;
+      width: 420px;
+      max-width: 70vw;
+    }
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      color: #888;
+      padding: 3px 10px;
+    }
+    @media (max-width: 430px) {
+      .modal-content video { width: 100%; }
+      .search-bar { width: 90vw; }
+      .info-card { width: 95vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" id="searchBar" class="search-bar" placeholder="Search sport...">
+  </div>
+  <div class="card-container" id="cardContainer"></div>
+
+  <!-- Modal for video playback -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content" id="modalContent">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <video
+        id="videoPlayer"
+        controls
+        autoplay
+        controlsList="nodownload noremoteplayback"
+        disablePictureInPicture
+        oncontextmenu="return false"
+      ></video>
+    </div>
+  </div>
+
+  <script>
+    // Card data
+    const cards = [
+      { title: 'Ayush Kumar', sport: 'football', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'Bhir Singh', sport: 'cricket', video: 'https://www.w3schools.com/html/movie.mp4' },
+      { title: 'Champaklal', sport: 'basketball', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'Deepak Singh', sport: 'tennis', video: 'https://www.w3schools.com/html/movie.mp4' },
+      { title: 'EkJoot Singh', sport: 'football', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'Fauji Singh', sport: 'cricket', video: 'https://www.w3schools.com/html/movie.mp4' },
+      { title: 'Garav Rawat', sport: 'basketball', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'Inayat Singh', sport: 'tennis', video: 'https://www.w3schools.com/html/movie.mp4' },
+      { title: 'joti Kumar', sport: 'football', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'kuldeep Singh', sport: 'cricket', video: 'https://www.w3schools.com/html/movie.mp4' },
+      { title: 'LULU', sport: 'basketball', video: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+      { title: 'Manjit Singh', sport: 'tennis', video: 'https://www.w3schools.com/html/movie.mp4' },
+      // Add more cards as needed
+    ];
+
+    const searchBar = document.getElementById('searchBar');
+    const cardContainer = document.getElementById('cardContainer');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const closeModal = document.getElementById('closeModal');
+
+    function renderCards(query = '') {
+      cardContainer.innerHTML = '';
+      const filtered = cards.filter(card =>
+        card.sport.toLowerCase().includes(query.trim().toLowerCase())
+      );
+      if (filtered.length === 0) {
+        cardContainer.innerHTML = `<p style="color:#555; font-size:1.11em; margin-top:24px;">No results found.</p>`;
+        return;
+      }
+      filtered.forEach(card => {
+        const div = document.createElement('div');
+        div.className = 'info-card';
+        div.innerHTML = `<div class="card-title">${card.title}</div>
+                         <div class="card-sport">${card.sport.toUpperCase()}</div>`;
+        div.addEventListener('click', () => showVideo(card.video));
+        cardContainer.appendChild(div);
+      });
+    }
+
+    function showVideo(videoUrl) {
+      videoPlayer.src = videoUrl;
+      modalOverlay.style.display = 'flex';
+      // Prevent download programmatically (not 100% foolproof)
+      videoPlayer.addEventListener('contextmenu', e => e.preventDefault());
+    }
+
+    function hideVideo() {
+      videoPlayer.pause();
+      videoPlayer.currentTime = 0;
+      videoPlayer.src = '';
+      modalOverlay.style.display = 'none';
+    }
+
+    // Event Listeners
+    searchBar.addEventListener('input', e => renderCards(e.target.value));
+    closeModal.addEventListener('click', hideVideo);
+    modalOverlay.addEventListener('click', function (e) {
+      if (e.target === modalOverlay) hideVideo();
+    });
+
+    // Disable drag/download from player
+    videoPlayer.addEventListener('dragstart', e => e.preventDefault());
+
+    // Initial render
+    renderCards();
+  </script>
+</body>
+</html>
